@@ -6,9 +6,9 @@ To specify this function, assign it as the `between` property of an object, and 
 
 ```javascript
 var clumpy = new Clumpy({
-    between: function () {
-        console.log('Progress: ' + i);
-    }
+  between: function () {
+    console.log('Progress: ' + i);
+  }
 });
 
 var i;

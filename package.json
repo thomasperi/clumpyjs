@@ -8,7 +8,7 @@
     "preversion": "npm test",
     "postversion": "git push && git push --tags"
   },
-  "homepage": "https://github.com/thomasperi/clumpyjs#readme",
+  "homepage": "https://thomasperi.github.io/clumpyjs/",
   "author": "Thomas Peri <hello@thomasperi.net>",
   "license": "MIT",
   "devDependencies": {

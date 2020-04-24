@@ -172,7 +172,7 @@ function Clumpy(options) {
 	/**
 	 * Enqueue the supplied statements function to be executed exactly once.
 	 */
-	self.once = once;
+	self.once = self.then = once;
 	function once(statements) {
 		enqueue(statements, nil);
 		return self;

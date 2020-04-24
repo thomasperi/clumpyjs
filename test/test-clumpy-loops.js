@@ -27,7 +27,7 @@ require('./test-clumpy.js')((Clumpy) => {
 			// Build an identical array asynchronously, and compare.
 			{
 				let i, clumpy = new Clumpy();
-				void (clumpy
+				return void (clumpy
 					.for_loop(
 						() => {i = 0;},
 						() => {return i < bound;},
@@ -36,6 +36,38 @@ require('./test-clumpy.js')((Clumpy) => {
 							b.push(i);
 						}
 					)
+					.once(() => {
+						// different arrays, same content
+						expect(a).not.to.equal(b); 
+						expect(a).to.eql(b);
+						done();
+					})
+				);
+			}
+
+		});
+
+		it('for_loop with arrow functions', multi[i++] = (done) => {
+
+			var a = [],
+				b = [],
+				bound = 100000;
+	
+			// Build a big array synchronously.
+			{
+				let i;
+				for (i = 0; i < bound; i++) {
+					a.push(i);
+				}
+			}
+			
+			// Build an identical array asynchronously, and compare.
+			{
+				let i, clumpy = new Clumpy();
+				return void (clumpy
+					.for_loop(()=> i = 0, ()=> i < bound, ()=> i++, () => {
+						b.push(i);
+					})
 					.once(() => {
 						// different arrays, same content
 						expect(a).not.to.equal(b); 
@@ -61,7 +93,7 @@ require('./test-clumpy.js')((Clumpy) => {
 			}
 			
 			// Copy the object asynchronously and compare.
-			void (clumpy
+			return void (clumpy
 				.for_in_loop(
 					() => { return src; },
 					(key) => {
@@ -104,7 +136,7 @@ require('./test-clumpy.js')((Clumpy) => {
 			// Build an identical array asynchronously, and compare.
 			{
 				let i, clumpy = new Clumpy();
-				void (clumpy
+				return void (clumpy
 					.once(() => {
 						i = 0;
 					})
@@ -143,7 +175,7 @@ require('./test-clumpy.js')((Clumpy) => {
 			// Build an identical array asynchronously, and compare.
 			{
 				let i, clumpy = new Clumpy();
-				void (clumpy
+				return void (clumpy
 					.once(() => {
 						i = 0;
 					})
