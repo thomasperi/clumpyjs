@@ -1,0 +1,27 @@
+{
+  "name": "clumpyjs",
+  "version": "0.0.1",
+  "description": "Asynchronous Looping in JavaScript",
+  "main": "dist/clumpy.min.js",
+  "scripts": {
+    "test": "gulp test"
+  },
+  "homepage": "https://github.com/thomasperi/clumpyjs#readme",
+  "author": "Thomas Peri <hello@thomasperi.net>",
+  "license": "MIT",
+  "devDependencies": {
+    "@thomasperi/raise-comments": "^1.0.0",
+    "@thomasperi/umd-pullup": "^1.0.2",
+    "chai": "^4.2.0",
+    "gulp": "^4.0.2",
+    "gulp-jshint": "^2.1.0",
+    "gulp-minify": "^3.1.0",
+    "gulp-mocha": "^7.0.2",
+    "gulp-regex-rename": "^0.1.0",
+    "gulp-uglify": "^3.0.2",
+    "gulp-umd": "^2.0.0",
+    "gulp4-run-sequence": "^1.0.0",
+    "jshint": "^2.11.0",
+    "mocha": "^7.1.1"
+  }
+}
