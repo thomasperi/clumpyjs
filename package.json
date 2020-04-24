@@ -4,7 +4,9 @@
   "description": "Asynchronous Looping in JavaScript",
   "main": "dist/clumpy.min.js",
   "scripts": {
-    "test": "gulp test"
+    "test": "gulp test",
+    "preversion": "npm test",
+    "postversion": "git push && git push --tags"
   },
   "homepage": "https://github.com/thomasperi/clumpyjs#readme",
   "author": "Thomas Peri <hello@thomasperi.net>",
