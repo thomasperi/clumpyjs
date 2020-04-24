@@ -33,7 +33,8 @@ The rest of this documentation will use full function expressions, for backward 
 The methods that model `while` and `do...while` are similar to `for_loop()`:
 
 ```javascript
-var i = 0;
+var i = 0,
+    clumpy = new Clumpy();
 clumpy.while_loop(
   function () { return i < 100000; },
   function () {
@@ -43,7 +44,8 @@ clumpy.while_loop(
 ```
 
 ```javascript
-var i = 0;
+var i = 0,
+    clumpy = new Clumpy();
 clumpy.do_while_loop(
   function () {
     // statements
@@ -55,7 +57,9 @@ clumpy.do_while_loop(
 `for...in` loops are almost as straightforward:
 
 ```javascript
-var key, object = { ... };
+var key,
+    object = { ... },
+    clumpy = new Clumpy();
 
 // Real Loop
 for (key in object) {

@@ -56,11 +56,13 @@ But back to the single instance.
 We can chain one-off operations too, not just loops. If we want to perform some action between two loops, we can use the `then` method. It takes one function as its argument, and performs that function `then`, with no looping:
 
 ```javascript
-var j = 0, key;
+var i = 0,
+    key,
+    clumpy = new Clumpy();
 
 (clumpy
   .while_loop(
-    function () { return j < 100000; },
+    function () { return i < 100000; },
     function () {
       // statements
     }
@@ -82,9 +84,10 @@ Whatever’s at the end of the chain is effectively the callback:
 
 ```javascript
 function doSomething(input, callback) {
-  var result = [];
-  
-  var i = 0;
+  var i = 0,
+      result = [],
+      clumpy = new Clumpy();
+      
   (clumpy
     .while_loop(
       // use input to build result

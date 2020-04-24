@@ -13,12 +13,12 @@ var clumpy = new Clumpy({
 
 var i;
 clumpy.for_loop(
-	function () { i = 0; },
-	function () { return i < 100000; },
-	function () { i += 1; },
-	function () {
-		// statements
-	}
+  function () { i = 0; },
+  function () { return i < 100000; },
+  function () { i += 1; },
+  function () {
+    // statements
+  }
 );
 ```
 
@@ -29,38 +29,38 @@ var clumpy = new Clumpy();
 
 var i;
 (clumpy
-	.set({
-		between: function () {
-			console.log('First Loop: ' + i);
-		}
-	})
-	.for_loop(
-		function () { i = 0; },
-		function () { return i < 100000; },
-		function () { i += 1; },
-		function () {
-			// statements
-		}
-	)
-	.then(function () {
-		console.log('First Loop is Finished');
-	})
-	.set({
-		between: function () {
-			console.log('Second Loop: ' + i);
-		}
-	})
-	.for_loop(
-		function () { i = 0; },
-		function () { return i < 100000; },
-		function () { i += 1; },
-		function () {
-			// statements
-		}
-	)
-	.then(function () {
-		console.log('Second Loop is Finished');
-	})
+  .set({
+    between: function () {
+      console.log('First Loop: ' + i);
+    }
+  })
+  .for_loop(
+    function () { i = 0; },
+    function () { return i < 100000; },
+    function () { i += 1; },
+    function () {
+      // statements
+    }
+  )
+  .then(function () {
+    console.log('First Loop is Finished');
+  })
+  .set({
+    between: function () {
+      console.log('Second Loop: ' + i);
+    }
+  })
+  .for_loop(
+    function () { i = 0; },
+    function () { return i < 100000; },
+    function () { i += 1; },
+    function () {
+      // statements
+    }
+  )
+  .then(function () {
+    console.log('Second Loop is Finished');
+  })
 );
 ```
 
