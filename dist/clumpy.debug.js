@@ -1,6 +1,6 @@
 (function(P,U,L){L(U,P);}(this,function(){'use strict';
 /*!
- * Clumpy v1.1.0
+ * Clumpy v1.1.1-dev
  * https://github.com/thomasperi/clumpyjs#readme
  * Thomas Peri <hello@thomasperi.net>
  * MIT License
