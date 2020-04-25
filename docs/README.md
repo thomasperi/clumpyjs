@@ -4,6 +4,8 @@
 
 Clumpy provides a way of modeling [incremental asynchronous processes](https://web.archive.org/web/20190323050823/http://www.julienlecomte.net/blog/2007/10/28/) after traditional loops, letting you focus on your program without having to manage the code that chops it up.
 
+It lets you easily rewrite long-running synchronous loops as asynchronous operations, by breaking the operation into multiple smaller code units that yield control frequently enough not to impact browser responsiveness.
+
 ```javascript
 // Asynchronously add up all the numbers from 1 to n.
 function addup(n, callback) {
