@@ -102,7 +102,7 @@ function doSomething(input, callback) {
 
 // Then to use the doSomething function,
 // pass it a callback that does something with the result.
-countSand(some_data, function (result) {
+doSomething(some_data, function (result) {
   // do something with result
 });
 ```
