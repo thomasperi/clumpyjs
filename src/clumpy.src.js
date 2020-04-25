@@ -1,7 +1,7 @@
 
 /*!
  * Clumpy v1.1.1-dev
- * https://github.com/thomasperi/clumpyjs#readme
+ * https://thomasperi.github.io/clumpyjs/
  * Thomas Peri <hello@thomasperi.net>
  * MIT License
  */
@@ -49,7 +49,7 @@ function Clumpy(options) {
 	}
 	
 
-	// PUBLIC LOOP METHODS
+	// LOOPING ACTION METHODS
 
 	/**
 	 * Enqueue the supplied statements function and associated functions
@@ -105,6 +105,19 @@ function Clumpy(options) {
 
 	/**
 	 * Enqueue the supplied statements and associated test function
+	 * to be executed in the fashion of a 'while' loop.
+	 */
+	self.while_loop = while_loop;
+	function while_loop(test, statements) {
+		return for_loop(
+			noop,
+			test,
+			noop,
+			statements);
+	}
+
+	/**
+	 * Enqueue the supplied statements and associated test function
 	 * to be executed in the fashion of a 'do...while' loop.
 	 */
 	self.do_while_loop = do_while_loop;
@@ -119,31 +132,16 @@ function Clumpy(options) {
 			statements);
 	}
 
-	/**
-	 * Enqueue the supplied statements and associated test function
-	 * to be executed in the fashion of a 'while' loop.
-	 */
-	self.while_loop = while_loop;
-	function while_loop(test, statements) {
-		return for_loop(
-			noop,
-			test,
-			noop,
-			statements);
-	}
 
-
-	// PUBLIC FLOW CONTROL METHODS
+	// LOOP CONTROL METHODS
 
 	/**
 	 * Emulate the 'break' keyword inside a Clumpy loop.
 	 */
 	self.break_loop = break_loop;
 	function break_loop(label) {
-		return once(function () {
-			findLoop(label);
-			queue.head.loop.done = yes;
-		});
+		findLoop(label);
+		queue.head.loop.done = yes;
 	}
 
 	/**
@@ -151,9 +149,7 @@ function Clumpy(options) {
 	 */
 	self.continue_loop = continue_loop;
 	function continue_loop(label) {
-		return once(function () {
-			findLoop(label);
-		});
+		findLoop(label);
 	}
 
 	/**
@@ -166,16 +162,16 @@ function Clumpy(options) {
 	}
 
 
-	// PUBLIC ASYNCHRONOUS METHODS
-	// These enqueue their actions and are for use from "inside" the chain.
-
+	// SINGLE ACTION METHODS
+	
 	/**
-	 * Enqueue the supplied statements function to be executed exactly once.
+	 * Enqueue an end to the current clump.
 	 */
-	self.once = self.then = once;
-	function once(statements) {
-		enqueue(statements, nil);
-		return self;
+	self.interrupt = interrupt;
+	function interrupt() {
+		return once(function () {
+			stop = yes;
+		});
 	}
 
 	/**
@@ -186,6 +182,25 @@ function Clumpy(options) {
 		return once(function () {
 			setNow(options);
 		});
+	}
+
+	/**
+	 * Enqueue a sleep of `delay` milliseconds.
+	 */
+	self.sleep = sleep;
+	function sleep(delay) {
+		return wait(function (callback) {
+			sleepTimeout = setTO(callback, delay);
+		});
+	}
+
+	/**
+	 * Enqueue the supplied statements function to be executed exactly once.
+	 */
+	self.then = self.once = once;
+	function once(statements) {
+		enqueue(statements, nil);
+		return self;
 	}
 
 	/**
@@ -202,28 +217,45 @@ function Clumpy(options) {
 	}
 
 	/**
-	 * Enqueue a sleep of `delay` milliseconds.
+	 * Enqueue a "try" and "catch" block, during which any exceptions thrown
+	 * will get caught and processed by the associated "catch" block.
 	 */
-	self.sleep = sleep;
-	function sleep(delay) {
-		return wait(function (callback) {
-			sleepTimeout = setTO(callback, delay);
-		});
-	}
+// 	self.try_ = try_catch;
+// 	function try_catch(try_stmts, catch_stmts, finally_stmts) {
+//		
+// 		// to-do
+//		// Keep a stack of "tries", and push a new one before invoking try_stmts. 
+//		// Before invoking *any* statements function,
+//		// if there are any tries on the stack,
+//		// pop the top one off*, but keep it stashed.
+//		// Wrap the function call in a real `try...catch` statement
+//		// which can than call the stashed try's catch_stmts function.
+//		// * The reason for popping it off is so that anything thrown
+//		// from inside `catch_stmts` or `finally_stmts` should get caught
+//		// by the outer `try_catch` if there is one, or not caught at all.
+//		
+// 		return self;
+// 	}
 
+	
+	// EXTERNAL CONTROL METHODS
+	
 	/**
-	 * Enqueue an end to the current clump.
+	 * Stop and forget everything this Clumpy instance is doing,
+	 * but don't reset the options.
 	 */
-	self.interrupt = interrupt;
-	function interrupt() {
-		return once(function () {
-			stop = yes;
-		});
+	self.init = init;
+	function init() {
+		inside = no;
+		nextLabel = nil;
+		paused = no;
+		queue = spawn(nil);
+		stop = no;
+		waiting = no;
+		clearTO(clumpTimeout);
+		clearTO(sleepTimeout);
+		return self;
 	}
-
-
-	// PUBLIC SYNCHRONOUS METHODS
-	// These act immediately and are for use from "outside" the chain.
 
 	/**
 	 * Freeze this Clumpy instance in its tracks.
@@ -278,23 +310,6 @@ function Clumpy(options) {
 				setTO(resume, 0);
 			}
 		}
-		return self;
-	}
-
-	/**
-	 * Stop and forget everything this Clumpy instance is doing,
-	 * but don't reset the options.
-	 */
-	self.init = init;
-	function init() {
-		inside = no;
-		nextLabel = nil;
-		paused = no;
-		queue = spawn(nil);
-		stop = no;
-		waiting = no;
-		clearTO(clumpTimeout);
-		clearTO(sleepTimeout);
 		return self;
 	}
 
@@ -414,9 +429,8 @@ function Clumpy(options) {
 	 * into the Clumpy queue to be performed eventually.
 	 */
 	function enqueue(statements, loop) {
-		var node;
 		nextLabel = nil;
-		node = {
+		var node = {
 			loop: loop,
 			statements: statements,
 			next: nil
