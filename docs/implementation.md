@@ -18,7 +18,7 @@ Either stage in the cycle can push new code units onto the end of the event queu
 
 1. While executing JavaScript code, if there's an instruction that starts an asynchronous operation (e.g. an AJAX request or `setTimeout`) the browser waits until that operation is complete, and then pushes the operation's callback function onto the event queue. (In the case of `setTimeout`, the async operation is the act of waiting, and the "callback" is the function.)
 
-2. While collecting UI information, if the browser discovers that an event has occurred that has an event handler set, it pushes the handler function onto the event queue.
+2. While collecting UI information, if the browser determines that an event has occurred that has a listener registered, it pushes the listener function onto the event queue.
 
 If any code unit runs too long before its outermost function call returns, it prevents the browser from updating the UI, causing it to hang, unresponsive.
 
@@ -64,28 +64,28 @@ But before I can talk about how the stack works, I have to clarify one point abo
 var i, j, clumpy;
 clumpy = new Clumpy();
 (clumpy
-	.for_loop( /* [A] */
-		function () { i = 0; },
-		function () { return i < 10; },
-		function () { i += 1; },
-		function () { /* [C] */
-			(clumpy
-				.for_loop( /* [D] */
-					function () { j = 0; },
-					function () { return j < 10; },
-					function () { j += 1; },
-					function () {
-						output(i + ', ' + j);
-					}
-				)
-			);
-		}
-	)
-	.then( /* [B] */
-		function () {
-			output('done');
-		}
-	)
+  .for_loop( /* [A] */
+    function () { i = 0; },
+    function () { return i < 10; },
+    function () { i += 1; },
+    function () { /* [C] */
+      (clumpy
+        .for_loop( /* [D] */
+          function () { j = 0; },
+          function () { return j < 10; },
+          function () { j += 1; },
+          function () {
+            output(i + ', ' + j);
+          }
+        )
+      );
+    }
+  )
+  .then( /* [B] */
+    function () {
+      output('done');
+    }
+  )
 );
 ```
 
