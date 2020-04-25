@@ -30,14 +30,14 @@ require('./test-clumpy.js')((Clumpy) => {
 			// Build an identical array asynchronously, and compare.
 			{
 				let i, clumpy = new Clumpy();
-				return void (clumpy
+				(clumpy
 					.for_loop(
-						() => {i = 0;},
-						() => {return i < bound;},
-						() => {i++;},
+						() => i = 0,
+						() => i < bound,
+						() => i++,
 						() => {
 							if (10 < i && i < 100) {
-								return void (clumpy
+								return (clumpy
 									.continue_loop()
 								);
 							}
@@ -77,14 +77,14 @@ require('./test-clumpy.js')((Clumpy) => {
 			// Build an identical array asynchronously, and compare.
 			{
 				let i, clumpy = new Clumpy();
-				return void (clumpy
+				(clumpy
 					.for_loop(
-						() => {i = 0;},
-						() => {return i < bound;},
-						() => {i++;},
+						() => i = 0,
+						() => i < bound,
+						() => i++,
 						() => {
 							if (i >= bound / 2) {
-								return void (clumpy
+								return (clumpy
 									.break_loop()
 								);
 							}
@@ -136,28 +136,28 @@ require('./test-clumpy.js')((Clumpy) => {
 			// test
 			{
 				let i, j, clumpy = new Clumpy();
-				return void (clumpy
+				(clumpy
 					.for_loop(
-						() => {i = 0;},
-						() => {return i < iBound;},
-						() => {i++;},
-						() => {return void (clumpy
+						() => i = 0,
+						() => i < iBound,
+						() => i++,
+						() => {(clumpy
 							.once(() => {
 								b[i] = [];
 								if (i === 3) {
-									return void (clumpy
+									return (clumpy
 										.continue_loop()
 									);
 								}
 							})
 							.for_loop(
-								() => {j = 0;},
-								() => {return j < jBound;},
-								() => {j++;},
+								() => j = 0,
+								() => j < jBound,
+								() => j++,
 								() => {
 									b[i][j] = null;
 									if (j === 2) {
-										return void (clumpy
+										return (clumpy
 											.continue_loop()
 										);
 									}
@@ -207,24 +207,24 @@ require('./test-clumpy.js')((Clumpy) => {
 			// test
 			{
 				let i, j, clumpy = new Clumpy();
-				return void (clumpy
+				(clumpy
 					.for_loop(
-						() => {i = 0;},
-						() => {return i < iBound;},
-						() => {i++;},
-						() => {return void (clumpy
+						() => i = 0,
+						() => i < iBound,
+						() => i++,
+						() => {(clumpy
 							.once(() => {
 								if (i >= iBound / 2) {
-									return void (clumpy
+									return (clumpy
 										.break_loop()
 									);
 								}
 								b.push([]);
 							})
 							.for_loop(
-								() => {j = 0;},
-								() => {return j < jBound;},
-								() => {j++;},
+								() => j = 0,
+								() => j < jBound,
+								() => j++,
 								() => {
 									if (j >= jBound / 2) {
 										return clumpy.
@@ -274,15 +274,15 @@ require('./test-clumpy.js')((Clumpy) => {
 			// test
 			{
 				let i, clumpy = new Clumpy();
-				return void (clumpy
+				(clumpy
 					.label('myLabel')
 					.for_loop(
-						() => {i = 0;},
-						() => {return i < bound;},
-						() => {i++;},
+						() => i = 0,
+						() => i < bound,
+						() => i++,
 						() => {
 							if (10 < i && i < 100) {
-								return void (clumpy
+								return (clumpy
 									.continue_loop('myLabel')
 								);
 							}
@@ -325,15 +325,15 @@ require('./test-clumpy.js')((Clumpy) => {
 			// test
 			{
 				let i, clumpy = new Clumpy();
-				return void (clumpy
+				(clumpy
 					.label('myLabel')
 					.for_loop(
-						() => {i = 0;},
-						() => {return i < bound;},
-						() => {i++;},
+						() => i = 0,
+						() => i < bound,
+						() => i++,
 						() => {
 							if (i >= bound / 2) {
-								return void (clumpy
+								return (clumpy
 									.break_loop('myLabel')
 								);
 							}
@@ -389,29 +389,29 @@ require('./test-clumpy.js')((Clumpy) => {
 			// test
 			{
 				let i, j, clumpy = new Clumpy();
-				return void (clumpy
+				(clumpy
 					.label('myLabel')
 					.for_loop(
-						() => {i = 0;},
-						() => {return i < iBound;},
-						() => {i++;},
+						() => i = 0,
+						() => i < iBound,
+						() => i++,
 						() => {
-							return void (clumpy
+							(clumpy
 								.once(() => {
 									b.push([]);
 									if (i === 3) {
-										return void (clumpy.
+										return (clumpy.
 											continue_loop()
 										);
 									}
 								})
 								.for_loop(
-									() => {j = 0;},
-									() => {return j < jBound;},
-									() => {j++;},
+									() => j = 0,
+									() => j < jBound,
+									() => j++,
 									() => {
 										if (j === 2) {
-											return void (clumpy
+											return (clumpy
 												.continue_loop('myLabel')
 											);
 										}
@@ -465,29 +465,29 @@ require('./test-clumpy.js')((Clumpy) => {
 			{
 				let i, j, clumpy = new Clumpy();
 				
-				return void (clumpy
+				(clumpy
 					.label('myLabel')
 					.for_loop(
-						() => {i = 0;},
-						() => {return i < iBound;},
-						() => {i++;},
+						() => i = 0,
+						() => i < iBound,
+						() => i++,
 						() => {
-							return void (clumpy
+							(clumpy
 								.once(() => {
 									if (i >= iBound / 2) {
-										return void (clumpy
+										return (clumpy
 											.break_loop()
 										);
 									}
 									b.push([]);
 								})
 								.for_loop(
-									() => {j = 0;},
-									() => {return j < jBound;},
-									() => {j++;},
+									() => j = 0,
+									() => j < jBound,
+									() => j++,
 									() => {
 										if (j >= jBound / 2) {
-											return void (clumpy
+											return (clumpy
 												.break_loop('myLabel')
 											);
 										}

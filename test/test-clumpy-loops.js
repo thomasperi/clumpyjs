@@ -10,6 +10,34 @@ require('./test-clumpy.js')((Clumpy) => {
 
 	describe('Test Clumpy Loops', () => {
 		
+		it('should be asynchronous', multi[i++] = (done) => {
+			var i,
+				b = [],
+				bound = 100000,
+				clumpy = new Clumpy();
+				
+			(clumpy
+				.for_loop(
+					() => i = 0,
+					() => i < bound,
+					() => i++,
+					() => {
+						b.push(i);
+					}
+				)
+				.once(() => {
+					// Ensure that the first clump gets deferred too,
+					// not done synchronously.
+					expect(b[0]).to.equal('hello'); 
+					expect(b[1]).to.equal(0);
+					done();
+				})
+			);
+			
+			// Synchronously push hello.
+			b.push('hello');
+		});
+		
 		it('for_loop', multi[i++] = (done) => {
 
 			var a = [],
@@ -27,11 +55,11 @@ require('./test-clumpy.js')((Clumpy) => {
 			// Build an identical array asynchronously, and compare.
 			{
 				let i, clumpy = new Clumpy();
-				return void (clumpy
+				(clumpy
 					.for_loop(
-						() => {i = 0;},
-						() => {return i < bound;},
-						() => {i++;},
+						() => i = 0,
+						() => i < bound,
+						() => i++,
 						() => {
 							b.push(i);
 						}
@@ -64,7 +92,7 @@ require('./test-clumpy.js')((Clumpy) => {
 			// Build an identical array asynchronously, and compare.
 			{
 				let i, clumpy = new Clumpy();
-				return void (clumpy
+				(clumpy
 					.for_loop(()=> i = 0, ()=> i < bound, ()=> i++, () => {
 						b.push(i);
 					})
@@ -93,7 +121,7 @@ require('./test-clumpy.js')((Clumpy) => {
 			}
 			
 			// Copy the object asynchronously and compare.
-			return void (clumpy
+			(clumpy
 				.for_in_loop(
 					() => { return src; },
 					(key) => {
@@ -136,12 +164,12 @@ require('./test-clumpy.js')((Clumpy) => {
 			// Build an identical array asynchronously, and compare.
 			{
 				let i, clumpy = new Clumpy();
-				return void (clumpy
+				(clumpy
 					.once(() => {
 						i = 0;
 					})
 					.while_loop(
-						() => {return i < bound;},
+						() => i < bound,
 						() => {
 							b.push(i);
 							i++;
@@ -175,7 +203,7 @@ require('./test-clumpy.js')((Clumpy) => {
 			// Build an identical array asynchronously, and compare.
 			{
 				let i, clumpy = new Clumpy();
-				return void (clumpy
+				(clumpy
 					.once(() => {
 						i = 0;
 					})
@@ -184,7 +212,7 @@ require('./test-clumpy.js')((Clumpy) => {
 							b.push(i);
 							i++;
 						},
-						() => {return i < bound;}
+						() => i < bound
 					)
 					.once(() => {
 						// different arrays, same content
