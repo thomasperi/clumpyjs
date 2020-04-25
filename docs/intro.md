@@ -1,4 +1,4 @@
-{% include nav.md %}
+{% include nav.html %}
 
 # Intro to Clumpy.js
 
