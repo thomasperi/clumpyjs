@@ -26,6 +26,7 @@ define(['clumpyjs'] , function (Clumpy) {
 ```
 
 *Web*
+
 If you're loading the file in a web browser without a module loader, the Clumpy.js library will be assigned to the global variable `Clumpy` by default. If you want to use it globally under a different name, you can use the `noConflict` method to reassign it to a new variable. This also restores the original value of `Clumpy` if that variable was already in use.
 
 ```html
