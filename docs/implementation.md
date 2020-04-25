@@ -115,6 +115,7 @@ Now, remember the part above about advancing? When a new queue is pushed onto th
 
 So, to continue from step 7 above, let's revise it:
 
+{:start="7"}
 7. [C] invokes `for_loop` [D]. Clumpy notices that this is the first one inside a `statements` function, and pushes a new queue onto the stack.
 
 8. [D]'s node gets enqueued as the first in the queue.
