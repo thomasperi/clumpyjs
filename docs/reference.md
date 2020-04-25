@@ -2,7 +2,7 @@
 
 # Reference
 
-This page documents Clumpy, method by method. The examples are out of context and show only the invocation of the method. See the usage guide for more information on how to use these methods together.
+This page documents Clumpy, method by method. See the usage guide for more information on how to use these methods together.
 
 * [Constructor](#constructor)
 
