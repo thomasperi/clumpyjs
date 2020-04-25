@@ -1,3 +1,5 @@
+{% include nav.md %}
+
 # Intro to Clumpy.js
 
 In Clumpy, you can model an asynchronous loop like this:
@@ -85,5 +87,3 @@ clumpy.for_in_loop(
 ```
 
 The difference between the “loose” and “strict” equivalents is that the `key` parameter to the function is not the same `key` variable that’s declared outside the function. The strict example makes the value persist in the outer `key`.
-
-{% include nav.md %}
