@@ -1,4 +1,4 @@
-# Intro
+# Intro to Clumpy.js
 
 In Clumpy, you can model an asynchronous loop like this:
 

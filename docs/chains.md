@@ -1,4 +1,4 @@
-# Chains
+# Chaining Clumpy.js Methods
 
 Every method of a `Clumpy` instance returns a reference to the same instance. So to do several loops in sequence, just chain the method calls together like this:
 
