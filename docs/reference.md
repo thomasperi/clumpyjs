@@ -298,4 +298,3 @@ The following methods act immediately instead of enqueueing actions. They are fo
 > Set options for this Clumpy instance immediately. Contrast this with `set` above, which doesn’t set the options immediately, but enqueues the act of setting the options.
 > 
 > The `options` object can have the same properties as the `Clumpy` [constructor](#constructor).
-
