@@ -1,6 +1,8 @@
-# Break and Continue in Clumpy.js
+{% include nav.html %}
 
-Suppose we wanted to skip all the numbers that are divisible by ten, or if the number meets some special condition, exit the loop.
+# Loop Control
+
+`continue_loop` and `break_loop` emulate `continue` and `break`.
 
 ```javascript
 var i;

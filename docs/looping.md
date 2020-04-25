@@ -1,6 +1,6 @@
 {% include nav.html %}
 
-# Intro to Clumpy.js
+# Looping
 
 In Clumpy, you can model an asynchronous loop like this:
 

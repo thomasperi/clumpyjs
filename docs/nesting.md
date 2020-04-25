@@ -1,4 +1,6 @@
-# Nesting Clumpy.js Loops
+{% include nav.html %}
+
+# Nesting Loops
 
 To nest loops, just put a chain or a loop in the statements block of another loop. They can be nested indefinitely.
 

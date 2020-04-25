@@ -1,4 +1,6 @@
-# Indicating Progress with Clumpy.js
+{% include nav.html %}
+
+# Indicating Progress
 
 When a long-running operation is something the user cares about, it’s nice to provide the user with some indication of how close the operation is to completion. To this end, Clumpy lets you specify a function to be called between clumps of execution.
 
