@@ -3,6 +3,9 @@
   "version": "1.1.0",
   "description": "Asynchronous Looping in JavaScript",
   "main": "dist/clumpy.min.js",
+  "files": [
+    "dist"
+  ],
   "scripts": {
     "test": "gulp test",
     "preversion": "npm test",
