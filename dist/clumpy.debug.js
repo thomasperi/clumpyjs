@@ -579,8 +579,15 @@ return Clumpy;
 
 
 }, function (factory, root) {
-	/*global define, exports, module */
 	'use strict';
+	/*global define, exports, module, require */
+	
+	// If dependencies are listed in the gulp-umd file, this script will call
+	// Node's `require` function. If no dependencies are listed, it won't.
+	// But jshint doesn't know that, which creates a catch-22 with the global
+	// comment above. Voiding it here keeps it around for jshint and only adds
+	// eight bytes to the minified file.
+	void require;
 	
 	var library,
 		original,

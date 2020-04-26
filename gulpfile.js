@@ -56,6 +56,9 @@ task('umd', true, function() {
 	return (gulp
 		.src(files.src)
 		.pipe(umd({
+			'dependencies': function(file) {
+				return [];
+			},
 			'exports': function(file) {
 				return 'Clumpy';
 			},
