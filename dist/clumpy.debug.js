@@ -303,12 +303,14 @@ function Clumpy(options) {
 			if (options[has]('manual')) {
 				manual = !!options.manual;
 			}
+			
+			// Changes take effect for the next clump, not the current one.
 
-			// Pause and resume the Clumpy to make the changes take effect immediately.
-			if (queue.head && !paused && !waiting) {
-				pause();
-				setTO(resume, 0);
-			}
+// OLD: Pause and resume the Clumpy to make the changes take effect immediately.
+// 			if (queue.head && !paused && !waiting) {
+// 				pause();
+// 				setTO(resume, 0);
+// 			}
 		}
 		return self;
 	}
