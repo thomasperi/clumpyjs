@@ -1,6 +1,6 @@
 
 /*!
- * Clumpy v1.1.1
+ * Clumpy v1.1.2-dev
  * https://thomasperi.github.io/clumpyjs/
  * Thomas Peri <hello@thomasperi.net>
  * MIT License
