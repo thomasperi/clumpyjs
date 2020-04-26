@@ -25,7 +25,7 @@ require('./test-clumpy.js')((Clumpy) => {
 						b.push(i);
 					}
 				)
-				.once(() => {
+				.then(() => {
 					// Ensure that the first clump gets deferred too,
 					// not done synchronously.
 					expect(b[0]).to.equal('hello'); 
@@ -64,7 +64,7 @@ require('./test-clumpy.js')((Clumpy) => {
 							b.push(i);
 						}
 					)
-					.once(() => {
+					.then(() => {
 						// different arrays, same content
 						expect(a).not.to.equal(b); 
 						expect(a).to.eql(b);
@@ -96,7 +96,7 @@ require('./test-clumpy.js')((Clumpy) => {
 					.for_loop(()=> i = 0, ()=> i < bound, ()=> i++, () => {
 						b.push(i);
 					})
-					.once(() => {
+					.then(() => {
 						// different arrays, same content
 						expect(a).not.to.equal(b); 
 						expect(a).to.eql(b);
@@ -130,7 +130,7 @@ require('./test-clumpy.js')((Clumpy) => {
 						}
 					}
 				)
-				.once(() => {
+				.then(() => {
 					// Test a few individually
 					expect(dest.p0).to.equal(0);
 					expect(dest.p112).to.equal(112);
@@ -165,7 +165,7 @@ require('./test-clumpy.js')((Clumpy) => {
 			{
 				let i, clumpy = new Clumpy();
 				(clumpy
-					.once(() => {
+					.then(() => {
 						i = 0;
 					})
 					.while_loop(
@@ -175,7 +175,7 @@ require('./test-clumpy.js')((Clumpy) => {
 							i++;
 						}
 					)
-					.once(() => {
+					.then(() => {
 						// different arrays, same content
 						expect(a).not.to.equal(b); 
 						expect(a).to.eql(b);
@@ -204,7 +204,7 @@ require('./test-clumpy.js')((Clumpy) => {
 			{
 				let i, clumpy = new Clumpy();
 				(clumpy
-					.once(() => {
+					.then(() => {
 						i = 0;
 					})
 					.do_while_loop(
@@ -214,7 +214,7 @@ require('./test-clumpy.js')((Clumpy) => {
 						},
 						() => i < bound
 					)
-					.once(() => {
+					.then(() => {
 						// different arrays, same content
 						expect(a).not.to.equal(b); 
 						expect(a).to.eql(b);

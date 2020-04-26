@@ -75,10 +75,118 @@ require('./test-clumpy.js')((Clumpy) => {
 			);
 		});
 
+		it('control for between', multi[i++] = (done) => {
+			var i,
+				b = [],
+				count = 0,
+				bound = 10, // Low enough that there should only be one clump, and therefore no between calls
+				clumpy = new Clumpy({
+					between: ()=> {
+						count++;
+					}
+				});
+				
+			(clumpy
+				.for_loop(
+					() => i = 0,
+					() => i < bound,
+					() => i++,
+					() => {
+						b.push(i);
+					}
+				)
+				.then(() => {
+					// Ensure that the first clump gets deferred too,
+					// not done synchronously.
+					expect(b[0]).to.equal('hello'); 
+					expect(b[1]).to.equal(0);
+					
+					expect(count).to.equal(0);
+					done();
+				})
+			);
+			
+			// Synchronously push hello.
+			b.push('hello');
+		});
+
+		it('constructor between with interrupt', multi[i++] = (done) => {
+			var i,
+				b = [],
+				count = 0,
+				bound = 99, // A number greater than exactly 9 non-zero multiples of ten.
+				clumpy = new Clumpy({
+					between: ()=> {
+						count++;
+					}
+				});
+				
+			(clumpy
+				.for_loop(
+					() => i = 1,
+					() => i < bound,
+					() => i++,
+					() => {
+						b.push(i);
+						if (i % 10 === 0) {
+							clumpy.interrupt();
+						}
+					}
+				)
+				.then(() => {
+					// Ensure that the first clump gets deferred too,
+					// not done synchronously.
+					expect(b[0]).to.equal('hello'); 
+					expect(b[1]).to.equal(1);
+					
+					expect(count).to.equal(9);
+					done();
+				})
+			);
+			
+			// Synchronously push hello.
+			b.push('hello');
+		});
+
+		it('set between with interrupt', multi[i++] = (done) => {
+			var i,
+				b = [],
+				count = 0,
+				bound = 99, // A number greater than exactly 9 non-zero multiples of ten.
+				clumpy = new Clumpy();
+			
+			(clumpy
+				.set({
+					between: ()=> {
+						count++;
+					}
+				})
+				.for_loop(
+					() => i = 1,
+					() => i <= bound,
+					() => i++,
+					() => {
+						b.push(i);
+						if (i % 10 === 0) {
+							clumpy.interrupt();
+						}
+					}
+				)
+				.then(() => {
+					// Ensure that the first clump gets deferred too,
+					// not done synchronously.
+					expect(b[0]).to.equal('hello'); 
+					expect(b[1]).to.equal(1);
+				
+					expect(count).to.equal(9);
+					done();
+				})
+			);
 		
-// 		it('template', multi[i++] = (done) => {
-// 		
-// 		});
+			// Synchronously push hello.
+			b.push('hello');
+		});
+
 
 // 		it('multiple simultaneous', (realDone) => {
 // 			var started = 0,
