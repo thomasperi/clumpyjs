@@ -18,7 +18,7 @@ var has = 'hasOwnProperty',
 
 
 // The constructor function to export.
-function Clumpy(options) {
+function/*constructor*/ Clumpy(options) {
 
 	var self = this, // Keep methods bound to `this` even if detached.
 
@@ -59,12 +59,13 @@ function Clumpy(options) {
 	function for_loop(init, test, inc, statements) {
 		// All the other loop methods are written in terms of this one ultimately.
 		enqueue(statements, {
-			label: nextLabel,
-			init: init,
-			test: test,
-			inc: inc,
-			inited: no,
-			done: no
+			// properties beginning with an underscore are terser-manglable
+			_label: nextLabel,
+			_init: init,
+			_test: test,
+			_inc: inc,
+			_inited: no,
+			_done: no
 		});
 		return self;
 	}
@@ -141,7 +142,7 @@ function Clumpy(options) {
 	self.break_loop = break_loop;
 	function break_loop(label) {
 		findLoop(label);
-		queue.head.loop.done = yes;
+		queue._head._loop._done = yes;
 	}
 
 	/**
@@ -307,7 +308,7 @@ function Clumpy(options) {
 			// Changes take effect for the next clump, not the current one.
 
 // OLD: Pause and resume the Clumpy to make the changes take effect immediately.
-// 			if (queue.head && !paused && !waiting) {
+// 			if (queue._head && !paused && !waiting) {
 // 				pause();
 // 				setTO(resume, 0);
 // 			}
@@ -328,27 +329,27 @@ function Clumpy(options) {
 
 			// If the current node is a loop that hasn't finished,
 			// just increment the loop and stop advancing.
-			var loop = queue.head.loop;
-			if (loop && !loop.done) {
-				loop.inc.call();
+			var loop = queue._head._loop;
+			if (loop && !loop._done) {
+				loop._inc.call();
 
 			// Otherwise -- since it's not a loop that hasn't finished --
 			// it must be either a one-off node, or a loop that has finished...
 			} else {
 
 				// ...so move on to the next node.
-				queue.head = queue.head.next;
+				queue._head = queue._head._next;
 
 				// If it turns out that there was no next node
 				// in this queue to move on to...
-				if (!queue.head) {
+				if (!queue._head) {
 
 					// ...clear the tail also.
-					queue.tail = nil;
+					queue._tail = nil;
 
 					// Then, if there's a parent queue to go back to, go back to it.
-					if (queue.parent) {
-						queue = queue.parent;
+					if (queue._parent) {
+						queue = queue._parent;
 
 						// Once we're back at the parent queue, though, we
 						// can't just stay there, because the very fact that
@@ -375,7 +376,7 @@ function Clumpy(options) {
 	 * and schedule another clump after a timeout.
 	 */
 	function clump() {
-		if (queue.head) {
+		if (queue._head) {
 			// The time after which this clump should end.
 			var end = new Date().getTime() + duration;
 			
@@ -387,7 +388,7 @@ function Clumpy(options) {
 
 				// If there's nothing left to do after this iteration,
 				// then don't bother calling between or schedule.
-				if (!queue.head) {
+				if (!queue._head) {
 					break;
 				}
 
@@ -433,9 +434,10 @@ function Clumpy(options) {
 	function enqueue(statements, loop) {
 		nextLabel = nil;
 		var node = {
-			loop: loop,
-			statements: statements,
-			next: nil
+			// properties beginning with an underscore are terser-manglable
+			_loop: loop,
+			_statements: statements,
+			_next: nil
 		};
 
 		// If this is the first node that was enqueued inside a statements
@@ -447,18 +449,18 @@ function Clumpy(options) {
 
 		// If there's anything in the (now-)current queue,
 		// add the new node to the end of it.
-		if (queue.tail) {
-			queue.tail.next = node;
-			queue.tail = node;
+		if (queue._tail) {
+			queue._tail._next = node;
+			queue._tail = node;
 
 		// Otherwise, mark this new node as the beginning and end.
 		} else {
-			queue.head = node;
-			queue.tail = node;
+			queue._head = node;
+			queue._tail = node;
 
 			// If this is the beginning of the outermost queue,
 			// the the timeouts need to be started.
-			if (!queue.parent) {
+			if (!queue._parent) {
 				schedule();
 			}
 		}
@@ -470,8 +472,8 @@ function Clumpy(options) {
 	 */
 	function findLoop(label) {
 		// Back out until we find a loop.
-		while (!queue.head.loop) {
-			queue = queue.parent;
+		while (!queue._head._loop) {
+			queue = queue._parent;
 			if (!queue) {
 				throw "'break_loop' and 'continue_loop' can only be used inside a Clumpy loop!";
 			}
@@ -479,8 +481,8 @@ function Clumpy(options) {
 		if (label) {
 			// If the loop we've found isn't the one with the specified label,
 			// keep backing out until we find it.
-			while (!queue.head.loop || queue.head.loop.label !== label) {
-				queue = queue.parent;
+			while (!queue._head._loop || queue._head._loop._label !== label) {
+				queue = queue._parent;
 				if (!queue) {
 					throw "Clumpy couldn't find the label '" + label + "'.";
 				}
@@ -494,18 +496,18 @@ function Clumpy(options) {
 	function iterate() {
 		var loop;
 
-		queue.begun = yes;
+		queue._begun = yes;
 
-		loop = queue.head.loop;
+		loop = queue._head._loop;
 		if (loop) {
-			if (!loop.inited) {
-				loop.init.call();
-				loop.inited = yes;
+			if (!loop._inited) {
+				loop._init.call();
+				loop._inited = yes;
 			}
-			if (loop.test.call()) {
+			if (loop._test.call()) {
 				perform();
 			} else {
-				loop.done = yes;
+				loop._done = yes;
 			}
 		} else {
 			perform();
@@ -513,7 +515,7 @@ function Clumpy(options) {
 
 		// Advance only if the latest statements function
 		// didn't push a new queue that hasn't begun yet.
-		if (queue.begun) {
+		if (queue._begun) {
 			advance();
 		}
 	}
@@ -523,7 +525,7 @@ function Clumpy(options) {
 	 */
 	function perform() {
 		inside = yes;
-		queue.head.statements.call();
+		queue._head._statements.call();
 		inside = no;
 	}
 
@@ -532,7 +534,7 @@ function Clumpy(options) {
 	 */
 	function schedule(d) {
 		// Only schedule it if there's something to do.
-		if (queue.head) {
+		if (queue._head) {
 			clumpTimeout = setTO(clump, d || 0);
 		}
 	}
@@ -564,10 +566,11 @@ function num(value, min) {
  */
 function spawn(parent) {
 	return {
-		begun: no,
-		parent: parent,
-		head: nil,
-		tail: nil
+		// properties beginning with an underscore are terser-manglable
+		_begun: no,
+		_parent: parent,
+		_head: nil,
+		_tail: nil
 	};
 }
 

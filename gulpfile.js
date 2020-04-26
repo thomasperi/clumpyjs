@@ -8,30 +8,29 @@ const umd = require('gulp-umd');
 const pullup = require('@thomasperi/umd-pullup');
 const jshint = require('gulp-jshint');
 
-// Yes, use both uglify and minify (terser). Uglify obeys the collapse_vars
-// option, and terser mistakenly bases its var collapsing decisions on the
-// length of the original variable names instead of the mangled ones.
-// So this script uses uglify to mangle, and then minify to optimize the rest,
-// once the variable names are short enough not to mess up collapse_vars.
+// Yes, use both uglify and terser. Terser mistakenly bases its collapsing
+// decisions on the length of the original variable names instead of the
+// mangled ones. So I'm using uglify to mangle, and then terser to optimize the
+// rest, once the variable names are short enough not to mess up collapsing.
 const uglify = require('gulp-uglify');
-const minify = require('gulp-minify');
+const terser = require('gulp-terser');
 
 const mocha = require('gulp-mocha');
 const raiseComments = require('@thomasperi/raise-comments').gulp;
 
 // Patterns for reading files
 var files = {
-	src: 'src/*.src.js',
-	test: 'test/*.js',
-	debug: 'dist/*.debug.js',
-	min: 'dist/*.min.js',
-	examples: 'examples/*.js'
+	'src': 'src/*.src.js',
+	'test': 'test/*.js',
+	'debug': 'dist/*.debug.js',
+	'min': 'dist/*.min.js',
+	'examples': 'examples/*.js'
 };
 
 // Directories for writing files
 var dir = {
-	dist: 'dist',
-	examples: 'examples'
+	'dist': 'dist',
+	'examples': 'examples'
 };
 
 // Make it easier to run tasks from inside other tasks.
@@ -57,14 +56,14 @@ task('umd', true, function() {
 	return (gulp
 		.src(files.src)
 		.pipe(umd({
-		'exports': function(file) {
-			return 'Clumpy';
-		},
-		'namespace': function(file) {
-			return 'Clumpy';
-		},
-		'template': pullup
-	}))
+			'exports': function(file) {
+				return 'Clumpy';
+			},
+			'namespace': function(file) {
+				return 'Clumpy';
+			},
+			'template': pullup
+		}))
 		.pipe(rename(/\.src\.js$/, '.debug.js'))
 		.pipe(gulp.dest(dir.dist))
 	);
@@ -86,26 +85,22 @@ task('lint', true, function() {
 task('min', true, function () {
 	return (gulp
 		.src(files.debug)
-		.pipe(rename(/\.debug\.js$/, '.min.js'))
 		
 		// See comments at the top regarding why this uses both uglify and terser.
 		.pipe(uglify({
-			compress: {
-				collapse_vars: false
-			},
-			output: {
-				comments: '/^!/'
+			'output': {
+				'comments': '/^!/'
 			}
 		}))
-		.pipe(minify({
-			'preserveComments': 'some',
-			'noSource': true,
-			collapse_vars: false,
-			ext:{
-				min:'.js'
-			},
+		.pipe(terser({
+			'ecma': 5,
+			'mangle': {
+				'properties': {
+					'regex': /^_\w+/
+				}
+			}
 		}))
-		
+		.pipe(rename(/\.debug\.js$/, '.min.js'))
 		.pipe(gulp.dest(dir.dist))
 	);
 });
@@ -125,7 +120,7 @@ task('test', true, function () {
 	return (gulp
 		.src(files.test)
 		.pipe(mocha({
-			reporter: 'nyan',
+			'reporter': 'nyan',
 		}))
 	);
 });
