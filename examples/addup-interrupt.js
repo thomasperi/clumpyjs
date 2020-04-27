@@ -11,7 +11,10 @@ function addup(n, callback) {
 		.set({
 			between: ()=> {
 				count++;
-				console.log('between: sum is ' + sum + ', increased count to ' + count)
+				console.log(
+					'between: sum is ' + sum +
+					', increased count to ' + count
+				);
 			}
 		})
 		.for_loop(

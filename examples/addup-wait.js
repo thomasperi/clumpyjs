@@ -2,14 +2,11 @@ var Clumpy = require('../dist/clumpy.min.js');
 
 // Add up all the numbers from 1 to n.
 function addup(n, callback) {
+	/*global setTimeout */
 	var i,
 		ms = 100,
 		sum = 0,
 		clumpy = new Clumpy();
-
-	function now() {
-		return new Date().getTime();
-	}
 
 	function asyncAddition(a, b, callback) {
 		setTimeout(()=> {
