@@ -15,10 +15,6 @@
   "author": "Thomas Peri <hello@thomasperi.net>",
   "license": "MIT",
   "devDependencies": {
-    "@thomasperi/my-gulp-tasks": "^1.0.1",
-    "chai": "^4.2.0",
-    "gulp": "^4.0.2",
-    "gulp4-run-sequence": "^1.0.1"
-  },
-  "dependencies": {}
+    "@thomasperi/my-gulp-tasks": "^1.0.3"
+  }
 }
