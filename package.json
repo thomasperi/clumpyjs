@@ -15,6 +15,6 @@
   "author": "Thomas Peri <hello@thomasperi.net>",
   "license": "MIT",
   "devDependencies": {
-    "@thomasperi/my-gulp-tasks": "^1.0.3"
+    "@thomasperi/my-gulp-tasks": "^1.0.4"
   }
 }
