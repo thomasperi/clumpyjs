@@ -20,7 +20,7 @@ var Clumpy = require("clumpyjs");
 
 *AMD*
 ```javascript
-define(['clumpyjs'] , function (Clumpy) {
+define(['clumpy.min'] , function (Clumpy) {
   ...
 });
 ```
