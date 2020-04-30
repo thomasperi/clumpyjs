@@ -1,5 +1,9 @@
 # Clumpy.js History
 
+## v1.1.3
+* Added `clear` as an alias for `init`, for clarity.
+* New Promise example
+
 ## v1.1.2
 * Fixed a bug that caused `between` function to be erroneously called before the first clump when using `set`.
 * New examples and tests
