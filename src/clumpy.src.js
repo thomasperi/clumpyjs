@@ -243,9 +243,9 @@ function/*constructor*/ Clumpy(options) {
 	
 	/**
 	 * Stop and forget everything this Clumpy instance is doing,
-	 * but don't reset the options.
+	 * but don't change the options.
 	 */
-	self.init = init;
+	self.init = self.clear = init;
 	function init() {
 		inside = no;
 		nextLabel = nil;

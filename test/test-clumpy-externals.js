@@ -91,7 +91,7 @@ require('./test-clumpy.js')((Clumpy) => {
 	
 		});
 
-		it('init while paused', multi[i++] = (done) => {
+		it('clear while paused', multi[i++] = (done) => {
 
 			var delay = 100,
 				clumpy = new Clumpy(),
@@ -121,7 +121,7 @@ require('./test-clumpy.js')((Clumpy) => {
 					var stashA = recentA;
 					
 					// Reinitialize the instance.
-					clumpy.init();
+					clumpy.clear();
 					
 					// Start another loop that updates a different timestamp.
 					(clumpy
@@ -151,7 +151,7 @@ require('./test-clumpy.js')((Clumpy) => {
 	
 		});
 
-		it('init while running', multi[i++] = (done) => {
+		it('clear while running', multi[i++] = (done) => {
 
 			var delay = 100,
 				clumpy = new Clumpy(),
@@ -177,7 +177,7 @@ require('./test-clumpy.js')((Clumpy) => {
 				var stashA = recentA;
 				
 				// Reinitialize the instance.
-				clumpy.init();
+				clumpy.clear();
 				
 				// Start another loop that updates a different timestamp.
 				(clumpy

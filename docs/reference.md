@@ -25,7 +25,7 @@ This page documents Clumpy, method by method. See the usage guide for more infor
   * [wait](#wait)
 
 * [External Control](#external)
-  * [init](#init)
+  * [clear](#clear)
   * [pause](#pause)
   * [resume](#resume)
   * [setNow](#setNow)
@@ -283,8 +283,8 @@ The following methods enqueue actions that aren't loops.
 
 The following methods act immediately instead of enqueueing actions. They are for external control over a Clumpy instance, and should generally not be used inside enqueued actions.
 
-<a name="init"></a>
-### `init()`
+<a name="clear"></a>
+### `clear()`
 > Stop this Clumpy instance immediately and discard all of its enqueued actions.
 
 <a name="pause"></a>
